@@ -1,8 +1,8 @@
 # What's new in Maven 4?
 
-> **THIS IS A DRAFT AND THEREFOR WORK IN PROGRESS ARTICLE**
+> **THIS IS A DRAFT AND THEREFORE WORK IN PROGRESS ARTICLE**
 
-Maven is more than 20 years old and is one of the most used build-tool in the Java world.
+Maven is over than 20 years old and is one of the most used build-tool in the Java world.
 Since all the years one important rule was the highest backward-compatibility as possible, especially with its [POM-schema with Model version 4.0.0][2], used for the build itself, but also by consumers.
 This made Maven more than a tool, but a whole ecosystem with a lot of things depended on the POM, esp. the Maven Central repository, other build tools and IDEs.
 But this stable schema comes at a price - the lack of flexibility.
@@ -12,7 +12,7 @@ But this stable schema comes at a price - the lack of flexibility.
 
 Maven 4 will prepare to changes which are impossible nowadays, like a complete new build schema.
 
-Another pain point of Maven 3 is a code base with a lot of "old", "dirty", non performant and duplicated code which costs the volunteers who maintain Maven a lot of time.
+Another pain point of Maven 3 is a code base with a lot of deprecated, convoluted and non performant and duplicated code which costs the volunteers who maintain Maven a lot of time.
 This not only means that the Maven codebases contains old Java code that can be optimized nowadays, but also old dependencies and bad API design of its own APIs, especially for Maven plugins.
 Therefor Maven 4 will also be a maintenance release.   
 
@@ -59,6 +59,8 @@ While the new type is only available with model Version 4.1.0 the final outcome 
 For an example see the link above or the [live coding by Maven maintainer Karl Heinz Marbaise at IntelliJ IDEA Conf 2004][5].
 
 **Note**: With Maven 4 it's also possible to exclude dependencies which are declared by BOMs using the existing `<exclusions>` element.
+Also note that in Maven4 importing BOMs with classifer is now possible. Therefore, Maven team suggests that projects BOMs be
+generated as classified artifacts (see Maven build "skinny" vs "fat" BOM).
 
 ### Comparing Build-POM and Consumer-POM
 The following table shows a rough comparison about which content is available in which POM type when using Maven 4.
@@ -165,8 +167,7 @@ Building a project with multiple subprojects could cause trouble when one subpro
 Maven was telling the user to (fix the error and then) resume the build with `--resume-from :<nameOfTheFailingSubproject>`, which instantly fails the build again as the needed other subproject couldn't be found (as it was not rebuild too).
 Using `--also-make :<nameOfTheDependentSubproject>` was no help in the past as it was ignored due the long-stand bug [MNG-6863][11] - which is finally fixed with Maven 4!
 
-**So the "reason" to blindly use `mvn clean install` as "workaround" for this (never intended) behavior is no more!
-Don't use `mvn clean install`, but `mvn verify` for your regular builds!**
+**It is recommended to not use `mvn clean install`, but `mvn verify` for your regular builds!**
 
 To improve usability when resuming a failed build you can now use `--resume` or its short parameter `-r` to resume a build from the subproject that last failed.
 So you don't have to manually pass the name of the failed subproject as the starting point to resume from.
@@ -274,6 +275,11 @@ You should also only rely on the official Maven BOMs when developing plugins.
 If a plugin still relies on long time deprecated and now removed Plexus dependency resolution, it will no longer work and needs to be updated to JSR-330 - see [Maven & JSR-330][26] for further information.
 
 **Advice**: If you are maintaining a Maven plugin, you should test it with Maven 3.9.x, have a close look at upcoming warnings and update the plugin.
+
+## TBD
+* Resolver 2.x vs Resolver 1.x (transport changes)
+* mvnenc
+* mvnsh
 
 ## Issue overview
 The Maven issue tracker provides a [full list of all resolved issues of Maven 4.0.0][22].
