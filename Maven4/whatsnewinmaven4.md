@@ -1,8 +1,8 @@
 # What's new in Maven 4?
 
-> **THIS IS A DRAFT AND THEREFOR WORK IN PROGRESS ARTICLE**
+> **THIS IS A DRAFT AND Therefore WORK IN PROGRESS ARTICLE**
 
-Maven is more than 20 years old and is one of the most used build-tool in the Java world.
+Maven is over 20 years old and is one of the most used build-tool in the Java world.
 Since all the years one important rule was the highest backward-compatibility as possible, especially with its [POM-schema with Model version 4.0.0][2], used for the build itself, but also by consumers.
 This made Maven more than a tool, but a whole ecosystem with a lot of things depended on the POM, esp. the Maven Central repository, other build tools and IDEs.
 But this stable schema comes at a price - the lack of flexibility.
@@ -12,9 +12,9 @@ But this stable schema comes at a price - the lack of flexibility.
 
 Maven 4 will prepare to changes which are impossible nowadays, like a complete new build schema.
 
-Another pain point of Maven 3 is a code base with a lot of "old", "dirty", non performant and duplicated code which costs the volunteers who maintain Maven a lot of time.
+Another pain point of Maven 3 is a code base with a lot of deprecated, convoluted, non performant and duplicated code which costs the volunteers who maintain Maven a lot of time.
 This not only means that the Maven codebases contains old Java code that can be optimized nowadays, but also old dependencies and bad API design of its own APIs, especially for Maven plugins.
-Therefor Maven 4 will also be a maintenance release.   
+Therefore, Maven 4 will also be a maintenance release.   
 
 This article presents and explains major changes brought by Maven 4, grouped into several topics.
 
@@ -30,8 +30,8 @@ This POM will only keep those which are really needed to use the artifact, e.g. 
 **Note**: See below for a comparison of the content of both POMs.
 
 ### Model version 4.1.0
-With now having two types of POM Maven 4 can already make the additions to the Build-POM as it will only be used by Maven (and of course IDEs).
-Therefor with Maven 4 a new Model version 4.1.0 is introduced.
+With now having two types of POM Maven 4 can already make additions to the Build-POM as it will only be used by Maven (and of course IDEs).
+Therefore, with Maven 4 a new Model version 4.1.0 is introduced.
 This version introduces some new elements and attributes, while others got marked as deprecated.
 To not break the ecosystem this version is only available for the Build-POM, while the Consumer-POM will still use version 4.0.0.
 This means Maven will generate the Consumer-POM during the build. 
@@ -59,6 +59,8 @@ While the new type is only available with model Version 4.1.0 the final outcome 
 For an example see the link above or the [live coding by Maven maintainer Karl Heinz Marbaise at IntelliJ IDEA Conf 2004][5].
 
 **Note**: With Maven 4 it's also possible to exclude dependencies which are declared by BOMs using the existing `<exclusions>` element.
+Also note that in Maven4 importing BOMs with classifier is now possible.
+Therefore, Maven team suggests that projects BOMs be generated as classified artifacts (see Maven build "skinny" vs "fat" BOM).
 
 ### Comparing Build-POM and Consumer-POM
 The following table shows a rough comparison about which content is available in which POM type when using Maven 4.
