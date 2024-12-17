@@ -167,8 +167,7 @@ Building a project with multiple subprojects could cause trouble when one subpro
 Maven was telling the user to (fix the error and then) resume the build with `--resume-from :<nameOfTheFailingSubproject>`, which instantly fails the build again as the needed other subproject couldn't be found (as it was not rebuild too).
 Using `--also-make :<nameOfTheDependentSubproject>` was no help in the past as it was ignored due the long-stand bug [MNG-6863][11] - which is finally fixed with Maven 4!
 
-**So the "reason" to blindly use `mvn clean install` as "workaround" for this (never intended) behavior is no more!
-Don't use `mvn clean install`, but `mvn verify` for your regular builds!**
+**It is recommended to not use `mvn clean install`, but `mvn verify` for your regular builds!**
 
 To improve usability when resuming a failed build you can now use `--resume` or its short parameter `-r` to resume a build from the subproject that last failed.
 So you don't have to manually pass the name of the failed subproject as the starting point to resume from.
@@ -267,7 +266,9 @@ before-integration-test[200]
 This becomes even more important when you were binding a plugin to the `post-*` phase of a lifecycle phase, because the `pre-*` phase of the phase you really would like to bind to did not exist, e.g. binding to `process-resources` phase, because there was no `pre-compile`one.
 
 
-## Maven plugins and dependencies
+## Maven plugins, security and tools
+
+### Maven plugins
 As written above Maven 4 will contain huge code and API updates, resulting in breaking (very) old Maven plugins, which were not updated to the recommended APIs.
 Major changes regarding plugins contain a now proper immutable plugin model together with a changed plugin API.
 The updated API provides hints as a preparation for Maven 4.
@@ -276,6 +277,24 @@ You should also only rely on the official Maven BOMs when developing plugins.
 If a plugin still relies on long time deprecated and now removed Plexus dependency resolution, it will no longer work and needs to be updated to JSR-330 - see [Maven & JSR-330][26] for further information.
 
 **Advice**: If you are maintaining a Maven plugin, you should test it with Maven 3.9.x, have a close look at upcoming warnings and update the plugin.
+
+### Improved encryption
+Security is important and storing unencrypted passwords is bad.
+Maven 3's password encryption has several serious issues and could rather be call a “password obfuscation”.
+Maven 4 instead got a fully redone encryption, based on Maven Encryption (`mvnenc`) - a standalone CLI tool.
+As for now it provides functionally equivalent operations as Maven 3 (see ["Maven: Password Encryption"][30]), but adds improvements like a `decrypt` functionality.
+A brought overview about the problems in Maven 3 and the solution in Maven 4 can be found in the article ["Handling sensitive data in Maven"][31] by Maven maintainer Tamás Cservenák.
+
+### Maven Resolver
+The [Maven Artifact Resolver][28] is a library for working with artifact repositories and dependency resolution.
+Maven 4 will include the new 2.0 release of this library, which contains more than 150 fixes, upgrades and improvements, e.g. a Java native HTTP-Client - thanks to lift of the Java version to JDK 17!
+See the project page for more information!
+
+### Maven Shell
+When you run any `mvn` the full chain of booting Java, Maven, load config, do the work, tear down and exit the process is done - **every single time**.
+To improve performance and reduce build time you can use the [Maven Daemon][29] (`mvnd`), which manages a pool of N resident Maven processes.
+With Maven 4 you can also use the brightly polished "Maven Shell" (`mvnsh`), which will keep exactly one resident Maven process as long as the shell is opened.
+Stay tuned for more information about this!
 
 ## Issue overview
 The Maven issue tracker provides a [full list of all resolved issues of Maven 4.0.0][22].
@@ -312,3 +331,7 @@ If you want to see issues resolved in each single (alpha/beta/RC) release, pleas
 [25]: https://github.com/apache/maven-hocon-extension
 [26]: https://maven.apache.org/maven-jsr330.html
 [27]: https://issues.apache.org/jira/browse/MNG-8286
+[28]: https://maven.apache.org/resolver/
+[29]: https://github.com/apache/maven-mvnd
+[30]: https://maven.apache.org/guides/mini/guide-encryption.html
+[31]: https://cstamas.org/blog/2024/09/handling-sensitive-data-in-maven/
