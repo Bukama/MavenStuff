@@ -31,3 +31,10 @@
 ## Guide: Multi subprojects
 
 ![image](puml_multisubproject.png)
+
+## Repository
+
+### Maven Central Repository
+
+![Maven Central Repository Old](https://maven.apache.org/repository/maven-central-repository.png)
+![Maven Central Repository New](puml_maven_central_repo.png)
