@@ -2,7 +2,7 @@
 
 ## General
 
-* Styling changed to `Style` syntax (`skinparameters` are depreacted)
+* Styling changed to `<Style>` syntax (`skinparameters` is deprecated, but `<Style>` not fully supported either)
 
 
 ## Sources
