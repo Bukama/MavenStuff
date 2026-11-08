@@ -1,37 +1,42 @@
-<project xmlns="http://maven.apache.org/POM/4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.1.0 http://maven.apache.org/xsd/maven-4.1.0.xsd" root="true">
+<project xmlns="http://maven.apache.org/POM/4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.1.0 http://maven.apache.org/xsd/maven-4.1.0.xsd" root="true">
   <modelVersion>4.1.0</modelVersion>
   <groupId>com.github.bukama.maven.example.mixin</groupId>
   <artifactId>meta_pom</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
 
-  <properties>
-    <!-- Verison of  SCA-rulesets are needed at multiple places, therefore its a variable -->
-    <my.prop>META</my.prop>
-
-  </properties>
-
 
   <build>
-
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.7.0</version>
           <configuration>
             <rules>
               <requireJavaVersion>
-                <version>17</version>
+                <version>25</version>
               </requireJavaVersion>
-            </rules> 
+              <requireMavenVersion>
+                <version>4.0.0-rc7</version>
+              </requireMavenVersion>
+            </rules>
           </configuration>
         </plugin>
         <plugin>
-          <groupId>com.github.ekryd.echo-maven-plugin</groupId>
-          <artifactId>echo-maven-plugin</artifactId>
-          <version>1.2.0</version>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.16.0</version>
+          <configuration>
+            <release>25</release>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.5.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -50,44 +55,8 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>com.github.ekryd.echo-maven-plugin</groupId>
-        <artifactId>echo-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>msg1</id>
-            <phase>package</phase>
-            <goals>
-              <goal>echo</goal>
-            </goals>
-            <configuration>
-              <message>"My prop" property during "package" phase from ${my.prop}</message>
-            </configuration>
-          </execution>
-          <execution>
-            <id>msg2</id>
-            <phase>compile[300]</phase>
-            <goals>
-              <goal>echo</goal>
-            </goals>
-            <configuration>
-              <message>"My prop" property during "compile" phase with prio 300 from ${my.prop}</message>
-            </configuration>
-          </execution>
-          <execution>
-            <id>msg3</id>
-            <phase>compile[200]</phase>
-            <goals>
-              <goal>echo</goal>
-            </goals>
-            <configuration>
-              <message>"My prop" property during "compile" phase with prio 200 from ${my.prop}</message>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
- 
+
 
 </project>
